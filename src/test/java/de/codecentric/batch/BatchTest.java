@@ -25,10 +25,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * This is a test class to run a batch. It is needed to have a running HSQLDB server to store the metadata. Details of
- * the run can be viewed in the spring-batch-admin view, i.e. at http://localhost:8080
+ * This is a test class to run a batch. It will initialize a spring batch db in an in-memory h2 db.
  *
  * @author Thomas Bosch
+ * @author Paul Klingelhuber
  */
 @ContextConfiguration(classes = { TestBatchConfiguration.class })
 @RunWith(SpringJUnit4ClassRunner.class)

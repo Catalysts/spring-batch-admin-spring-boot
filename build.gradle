@@ -1,0 +1,43 @@
+buildscript {
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://repo.spring.io/snapshot"
+        }
+        maven {
+            url "http://repo.spring.io/milestone"
+        }
+    }
+    // ...
+}
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-devtools")
+
+    compile("org.springframework.batch:spring-batch-admin-manager:1.3.0.BUILD-SNAPSHOT") {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+
+    runtime 'com.h2database:h2:1.4.193'
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile 'junit:junit'
+    testRuntime 'com.h2database:h2:1.4.193'
+}
+repositories {
+    jcenter()
+    maven {
+        url 'http://repo.spring.io/snapshot'
+    }
+}

@@ -21,7 +21,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.hsqldb.jdbcDriver;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -31,8 +30,11 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchDatabaseInitializer;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
 
 @Configuration
 @EnableBatchProcessing(modular = true)
@@ -72,11 +74,23 @@ public class TestBatchConfiguration {
 	@Bean
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName(jdbcDriver.class.getCanonicalName());
-		dataSource.setUrl("jdbc:hsqldb:hsql://localhost");
+		dataSource.setDriverClassName("org.h2.Driver");
+		dataSource.setUrl("jdbc:h2:~/test");
 		dataSource.setUsername("sa");
 		dataSource.setPassword("");
 		return dataSource;
+	}
+
+	@Bean
+	public BatchProperties batchProperties() {
+		return new BatchProperties();
+	}
+
+	@Bean
+	public BatchDatabaseInitializer databaseInitializer(DataSource dataSource,
+														ResourceLoader resourceLoader,
+														BatchProperties batchProperties) {
+		return new BatchDatabaseInitializer(dataSource, resourceLoader, batchProperties);
 	}
 
 }

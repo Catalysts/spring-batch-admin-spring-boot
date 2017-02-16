@@ -21,8 +21,9 @@ import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 import de.codecentric.batch.config.MainConfiguration;
@@ -35,27 +36,24 @@ import de.codecentric.batch.config.MainConfiguration;
  * @author Thomas Bosch
  */
 @Configuration
-@EnableAutoConfiguration(exclude = { BatchAutoConfiguration.class, DataSourceAutoConfiguration.class,
-		WebMvcAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = {BatchAutoConfiguration.class, DataSourceAutoConfiguration.class,
+        WebMvcAutoConfiguration.class})
 @Import(MainConfiguration.class)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class SpringBatchAdmin extends SpringBootServletInitializer {
 
-	/**
-	 * Run application.
-	 * 
-	 * @param args
-	 *            Parameters to pass to SpringApplication.
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBatchAdmin.class, args);
-	}
+    /**
+     * Run application.
+     *
+     * @param args Parameters to pass to SpringApplication.
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBatchAdmin.class, args);
+    }
 
-	/**
-	 * @see org.springframework.boot.context.web.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
-	 */
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(SpringBatchAdmin.class);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SpringBatchAdmin.class);
+    }
 
 }
